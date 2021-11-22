@@ -1,0 +1,6 @@
+{
+  "cmake.sourceDirectory": "${workspaceFolder}/.",
+  "cmake.debugConfig": {
+    "args": ["../main.c"]
+  }
+}

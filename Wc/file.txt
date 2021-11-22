@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+enum States { WORD, WHITESPACE };
+
+int main(int argc, char *argv[]) {
+  if (argc < 2) {
+    printf("Usage: wc file");
+    return EXIT_SUCCESS;
+  }
+
+  FILE *f = fopen(argv[1], "r");
+  if (f == NULL) {
+    fprintf(stderr, "Could not open file.");
+    return EXIT_FAILURE;
+  }
+
+  int line_buf_size = 1000;
+  char *line_buf = malloc(sizeof(char) * 1000);
+  int line_count = 0;
+  int readed = 0;
+
+  int words = 0, lines = 0, characters = 0;
+  int state = WORD;
+
+  while ((readed = getline(&line_buf, &line_buf_size, f)) != -1) {
+    int len = strlen(line_buf);
+    lines++;
+    state = WHITESPACE;
+
+    for (int i = 0; i < len; i++) {
+      characters++;
+
+      if (line_buf[i] == ' ') {
+        if (state == WORD) {
+          words++;
+          state = WHITESPACE;
+        }
+      } else {
+        if (line_buf[i] != '\n') {
+          state = WORD;
+        }
+      }
+    }
+
+    if (state == WORD) {
+      words++;
+    }
+  };
+
+  fprintf(stdout, "%d %d %d", lines - 1, words, characters);
+  free(line_buf);
+  fclose(f);
+  return EXIT_SUCCESS;
+}
