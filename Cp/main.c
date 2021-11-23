@@ -4,6 +4,13 @@
 #include <string.h>
 #include <unistd.h>
 
+/**
+ * @brief Implementation of the `cp` command.
+ *
+ * @param argc
+ * @param argv
+ * @return int
+ */
 int main(int argc, char *argv[]) {
   if (argc < 3) {
     printf("Usage: cp [source] [dest]");

@@ -4,6 +4,13 @@
 
 void sort(char *lines[], size_t line_count);
 
+/**
+ * @brief Implementation of the `sort` command.
+ *
+ * @param argc
+ * @param argv
+ * @return int
+ */
 int main(int argc, char *argv[]) {
   FILE *f = stdin;
   if (argc > 1) {
@@ -63,7 +70,16 @@ int main(int argc, char *argv[]) {
   return EXIT_SUCCESS;
 }
 
+/**
+ * @brief quicksort implementation using last index as pivot
+ *
+ * @param lines
+ * @param line_count
+ */
 void sort(char *lines[], size_t line_count) {
+  if (line_count <= 1)
+    return;
+
   char **left = malloc(sizeof(char *) * line_count);
   char **right = malloc(sizeof(char *) * line_count);
 
@@ -85,12 +101,8 @@ void sort(char *lines[], size_t line_count) {
     }
   }
 
-  if (left_index > 1) {
-    sort(left, left_index);
-  }
-  if (right_index > 1) {
-    sort(right, right_index);
-  }
+  sort(left, left_index);
+  sort(right, right_index);
 
   size_t output_index = 0;
   for (size_t i = 0; i < left_index; i++, output_index++) {
